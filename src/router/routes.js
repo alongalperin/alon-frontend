@@ -7,6 +7,7 @@ import authGuard from "./guards/auth-guard";
 const routes = [
   {
     path: "/",
+    name: "welcome",
     component: WelcomeComponent,
     beforeEnter: authGuard,
   },

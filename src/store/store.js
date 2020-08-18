@@ -11,8 +11,23 @@ export const store = new Vuex.Store({
     status: "",
   },
   actions: {
-    ["SET_USER_TOKEN"]: ({ commit }, token) => {
-      commit("AUTH_SUCCESS");
+    ["HANDLE_LOGIN"]: ({ commit, dispatch }, user) => {
+      return new Promise((resolve, reject) => {
+        axios
+          .post(
+            "https://sandbox.d.greeninvoice.co.il/api/v1/account/login",
+            user
+          )
+          .then((response) => {
+            const jwtToken = response.headers["x-authorization-bearer"];
+            localStorage.setItem("user-token", jwtToken);
+            commit("AUTH_SUCCESS");
+            resolve();
+          })
+          .catch((err) => {
+            reject(err.response.data.errorMessage);
+          });
+      });
     },
     ["INIT_APP_USER_TOKEN"]: ({ commit }) => {
       const userToken = localStorage.getItem("user-token");
@@ -20,6 +35,9 @@ export const store = new Vuex.Store({
         axios.defaults.headers.common["Authorization"] = userToken;
         commit("AUTH_SUCCESS");
       }
+    },
+    ["SET_LOGIN_ERROR"]: ({ commit }, error) => {
+      commit("AUTH_ERROR", error);
     },
   },
   mutations: {
@@ -29,8 +47,8 @@ export const store = new Vuex.Store({
     ["AUTH_SUCCESS"]: (state) => {
       state.status = "success";
     },
-    ["AUTH_ERROR"]: (state) => {
-      state.status = "error";
+    ["AUTH_ERROR"]: (state, error) => {
+      state.status = error;
     },
   },
   getters: {

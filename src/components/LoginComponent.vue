@@ -8,6 +8,7 @@
       <input type="text" v-model="password" id="password" name="password" />
       <input type="submit" value="Submit" />
     </form>
+    <p>{{ error }}</p>
   </div>
 </template>
 
@@ -26,24 +27,19 @@ export default {
   components: {},
   methods: {
     onSubmit: async function() {
-      let response;
-
-      try {
-        response = await axios.post(
-          "https://sandbox.d.greeninvoice.co.il/api/v1/account/login",
-          {
-            email: this.email,
-            password: this.password,
-          }
-        );
-      } catch (err) {
-        this.error = "somwthing went wrong";
-        return;
-      }
-      const jwtToken = response.headers["x-authorization-bearer"];
-      localStorage.setItem("user-token", jwtToken);
-      axios.defaults.headers.common["Authorization"] = jwtToken;
-      this.$store.dispatch("SET_USER_TOKEN", jwtToken);
+      const { email, password } = this;
+      this.$store
+        .dispatch("HANDLE_LOGIN", {
+          email,
+          password,
+        })
+        .then((response) => {
+          this.$router.push({ name: "welcome" });
+        })
+        .catch((err) => {
+          // todo: better error handle
+          this.error = err;
+        });
     },
   },
 };
