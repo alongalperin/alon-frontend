@@ -12,7 +12,7 @@ export const store = new Vuex.Store({
   },
   actions: {
     ["SET_USER_TOKEN"]: ({ commit }, token) => {
-      commit("AUTH_SUCCESS", token);
+      commit("AUTH_SUCCESS");
     },
     ["INIT_APP_USER_TOKEN"]: ({ commit }) => {
       const userToken = localStorage.getItem("user-token");

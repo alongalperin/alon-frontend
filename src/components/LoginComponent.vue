@@ -8,8 +8,6 @@
       <input type="text" v-model="password" id="password" name="password" />
       <input type="submit" value="Submit" />
     </form>
-    <p>{{ this.error }}</p>
-    {{ $store.getters.isAuthenticated }}
   </div>
 </template>
 
