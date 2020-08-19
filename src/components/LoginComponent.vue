@@ -2,55 +2,71 @@
   <div class="login-component-container">
     <div class="right-side-container">
       <img class="login-compnay-logo" src="@/assets/green_logo.svg" />
-      <div class="form-container">
-        <h1>היי, טוב לראות אותך</h1>
-        <form class="form" @submit.prevent="onSubmit">
-          <!-- Email input -->
-          <div class="form-group">
-            <div class="input-text-container">
-              <input
-                class="input-text"
-                type="text"
-                v-model="email"
-                id="email"
-                name="email"
-                autocomplete="off"
-                required
-              />
-              <label for="email" class="input-floating-label">
-                <span class="input-floating-content">אימייל:</span>
-              </label>
-              <br />
+      <div class="middle-wrapper">
+        <h1 class="login-welcome-title">היי, טוב לראות אותך</h1>
+        <div class="form-container">
+          <form class="form" @submit.prevent="onSubmit">
+            <!-- Email input -->
+            <div class="form-group">
+              <div class="input-text-container">
+                <input
+                  class="input-text"
+                  type="text"
+                  v-model="email"
+                  id="email"
+                  name="email"
+                  autocomplete="off"
+                  placeholder="transparant placeholder"
+                />
+                <label for="email" class="input-floating-label">
+                  <span class="input-floating-content">אימייל:</span>
+                </label>
+                <br />
+              </div>
+              <span class="input-remark"
+                >כתובת המייל איתה נרשמת לחשבונית ירוקה</span
+              >
             </div>
-            <span>כתובת המייל איתה נרשמת לחשבונית ירוקה</span>
-          </div>
 
-          <!-- Password input -->
-          <div class="form-group">
-            <div class="input-text-container">
-              <input
-                class="input-text"
-                type="password"
-                v-model="password"
-                id="password"
-                name="password"
-                autocomplete="off"
-                required
-              />
-              <label for="password" class="input-floating-label">
-                <span class="input-floating-content">סיסמא:</span>
-              </label>
-              <br />
+            <!-- Password input -->
+            <div class="form-group">
+              <div class="input-text-container">
+                <input
+                  class="input-text"
+                  type="password"
+                  v-model="password"
+                  id="password"
+                  name="password"
+                  autocomplete="off"
+                  placeholder="transparant placeholder"
+                />
+                <label for="password" class="input-floating-label">
+                  <span class="input-floating-content">סיסמא:</span>
+                </label>
+                <br />
+              </div>
+              <span class="input-remark"
+                ><a href="" v-on:click.self.prevent>שחכת סיסמא?</a></span
+              >
             </div>
-            <span><a href="" v-on:click.self.prevent>שחכת סיסמא?</a></span>
-          </div>
-          <div>
-            <input :disabled="loading" type="submit" value="Submit" />
-            <button>Google</button>
-          </div>
-        </form>
-        <LoadingComponent v-if="loading" />
-        <p>{{ error }}</p>
+            <div class="login-buttons-conatiner">
+              <input
+                class="btn signin-btn"
+                :disabled="loading"
+                type="submit"
+                value="כניסה"
+              />
+              <div class="btn google-signup-btn">
+                כניסה מהירה<img
+                  class="google-logo"
+                  src="@/assets/Google_G.svg"
+                />
+              </div>
+            </div>
+          </form>
+          <LoadingComponent v-if="loading" />
+          <p>{{ error }}</p>
+        </div>
       </div>
       <!-- END form container -->
       <!-- todo: change to one line comment -->
@@ -101,6 +117,7 @@ export default {
 
 <style lang="scss" scoped>
 $image-offset: -8.5%;
+$google-btn-color: #0084f4;
 
 .login-component-container {
   display: flex;
@@ -127,19 +144,29 @@ $image-offset: -8.5%;
 
 .right-side-container {
   width: 50vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.form-container {
-  width: 70%;
-  height: 60vh;
+.middle-wrapper {
+  width: 50%;
+}
+
+.login-welcome-title {
+  position: relative;
+  right: 1vh;
+  letter-spacing: -2px;
 }
 
 .form-group {
   margin-bottom: 6vh;
+}
+
+.input-remark {
+  width: 100%;
 }
 
 .form {
@@ -147,9 +174,8 @@ $image-offset: -8.5%;
   height: auto;
 }
 
-.form-container h1 {
-  /* todo: use scss */
-  font-size: 4rem; /* todo: work with rem */
+.form-button-error {
+  display: none !important;
 }
 
 .input-text-container {
@@ -158,6 +184,11 @@ $image-offset: -8.5%;
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
+}
+
+::-webkit-input-placeholder {
+  transition: inherit;
+  opacity: 0;
 }
 
 .input-text-container label {
@@ -207,8 +238,22 @@ $image-offset: -8.5%;
 }
 
 .input-text:focus + .input-floating-label .input-floating-content,
-.input-text:valid + .input-floating-label .input-floating-content {
+input:not(:placeholder-shown) + .input-floating-label .input-floating-content {
   /* valid because required is satisfied */
+  transform: translateY(-80%);
+  font-size: 14px;
+  color: #5fa8d3;
+}
+
+.input-text:focus + .input-floating-label::after,
+input:not(:placeholder-shown) + .input-floating-label::after {
+  transform: translateX(0%);
+}
+
+/*
+
+.input-text:focus + .input-floating-label .input-floating-content,
+.input-text:valid + .input-floating-label .input-floating-content {
   transform: translateY(-80%);
   font-size: 14px;
   color: #5fa8d3;
@@ -218,6 +263,7 @@ $image-offset: -8.5%;
 .input-text:valid + .input-floating-label::after {
   transform: translateX(0%);
 }
+*/
 
 .login-compnay-logo {
   position: absolute;
@@ -225,6 +271,54 @@ $image-offset: -8.5%;
   top: 3.5%;
   width: 221px;
   height: 34px;
+}
+
+.login-buttons-conatiner {
+  display: flex;
+  flex-direction: row;
+  place-content: space-between;
+}
+
+.btn {
+  height: 56px;
+  width: 228px;
+  border-radius: 100px;
+  border: none;
+  font-family: "almoni-neue-dl"; /* todo: add fallback font */
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.signin-btn {
+  color: #ffffff;
+  background: #18c746;
+}
+
+.signin-btn:hover {
+  background: lighten(#18c746, 3%);
+}
+
+.google-signup-btn {
+  background: #fff;
+  border: 1px solid $google-btn-color;
+  color: $google-btn-color;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.google-signup-btn:hover {
+  border: 1px solid lighten($google-btn-color, 30%);
+}
+
+.google-signup-btn .google-logo {
+  /* todo: use scss*/
+  height: 24px;
+  width: 24px;
+  margin-right: 13px;
 }
 
 @media only screen and (max-width: 620px) {
@@ -243,13 +337,34 @@ $image-offset: -8.5%;
   }
 
   .login-compnay-logo {
-    left: 50%;
-    transform: translate(-50%);
+    right: unset;
+  }
+
+  .middle-wrapper {
+    width: 80%;
   }
 
   .form-container {
-    width: 100%;
-    height: 80vh;
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .input-floating-content {
+    font-size: 6rem;
+  }
+
+  .input-remark {
+    font-size: 3rem;
+    font-weight: 600;
+  }
+
+  .login-buttons-conatiner {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    margin-bottom: 2vh;
   }
 }
 </style>
