@@ -9,6 +9,7 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     status: "",
+    firstname: localStorage.getItem("user-firstname") || "",
   },
   actions: {
     ["HANDLE_LOGIN"]: ({ commit, dispatch }, user) => {
@@ -19,8 +20,10 @@ export const store = new Vuex.Store({
             user
           )
           .then((response) => {
-            const jwtToken = response.headers["x-authorization-bearer"];
-            localStorage.setItem("user-token", jwtToken);
+            const userToken = response.headers["x-authorization-bearer"];
+            setAuthTokenInHeaders(userToken);
+            localStorage.setItem("user-token", userToken);
+            localStorage.setItem("user-firstname", response.data.firstName);
             commit("AUTH_SUCCESS");
             resolve();
           })
@@ -32,12 +35,14 @@ export const store = new Vuex.Store({
     ["INIT_APP_USER_TOKEN"]: ({ commit }) => {
       const userToken = localStorage.getItem("user-token");
       if (userToken) {
-        axios.defaults.headers.common["Authorization"] = userToken;
+        setAuthTokenInHeaders(userToken);
         commit("AUTH_SUCCESS");
       }
     },
-    ["SET_LOGIN_ERROR"]: ({ commit }, error) => {
-      commit("AUTH_ERROR", error);
+    ["LOGOUT"]: ({ commit }) => {
+      localStorage.removeItem("user-token");
+      localStorage.removeItem("user-firstname");
+      commit("LOGOUT");
     },
   },
   mutations: {
@@ -47,12 +52,17 @@ export const store = new Vuex.Store({
     ["AUTH_SUCCESS"]: (state) => {
       state.status = "success";
     },
-    ["AUTH_ERROR"]: (state, error) => {
-      state.status = error;
+    ["LOGOUT"]: (state) => {
+      state.status = "";
     },
   },
   getters: {
     isAuthenticated: (state) => state.status === "success",
     authStatus: (state) => state.status,
+    firstname: (state) => state.firstname,
   },
 });
+
+function setAuthTokenInHeaders(token) {
+  axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+}

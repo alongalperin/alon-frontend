@@ -12,12 +12,27 @@ export default {
 </script>
 
 <style>
+@import url("https://cdn.d.greeninvoice.co.il/assets/web-app/2.2.331/components/webfonts/all.min.css");
+
+html {
+  font-size: 1vw;
+  direction: RTL;
+}
+
+body {
+  font-family: "almoni-neue-dl";
+  margin: 0px;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: right;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+h1 {
+  margin: 0px;
 }
 </style>
