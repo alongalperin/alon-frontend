@@ -12,7 +12,7 @@ export const store = new Vuex.Store({
     firstname: localStorage.getItem("user-firstname") || "",
   },
   actions: {
-    ["HANDLE_LOGIN"]: ({ commit, dispatch }, user) => {
+    ["HANDLE_LOGIN"]: ({ commit }, user) => {
       return new Promise((resolve, reject) => {
         axios
           .post(
@@ -53,6 +53,8 @@ export const store = new Vuex.Store({
       state.status = "success";
     },
     ["LOGOUT"]: (state) => {
+      /* todo: clearn localstorage */
+      /* todo: clean username from localstorage, there is no need in this */
       state.status = "";
     },
   },

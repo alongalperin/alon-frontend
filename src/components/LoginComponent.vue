@@ -2,7 +2,7 @@
   <div class="login-component-container">
     <div class="right-side-container">
       <img class="login-compnay-logo" src="@/assets/green_logo.svg" />
-      <div class="middle-wrapper">
+      <div class="middle-right-side-wrapper">
         <h1 class="login-welcome-title">היי, טוב לראות אותך</h1>
         <div class="form-container">
           <form class="form" @submit.prevent="onSubmit">
@@ -23,11 +23,8 @@
                 </label>
                 <br />
               </div>
-              <span class="input-remark"
-                >כתובת המייל איתה נרשמת לחשבונית ירוקה</span
-              >
+              <span class="input-remark">כתובת המייל איתה נרשמת לחשבונית ירוקה</span>
             </div>
-
             <!-- Password input -->
             <div class="form-group">
               <div class="input-text-container">
@@ -45,31 +42,26 @@
                 </label>
                 <br />
               </div>
-              <span class="input-remark"
-                ><a href="" v-on:click.self.prevent>שחכת סיסמא?</a></span
-              >
+              <span class="input-remark">
+                <a href v-on:click.self.prevent>שחכת סיסמא?</a>
+              </span>
             </div>
             <div class="login-buttons-conatiner">
-              <input
-                class="btn signin-btn"
-                :disabled="loading"
-                type="submit"
-                value="כניסה"
-              />
+              <input class="btn signin-btn" :disabled="loading" type="submit" value="כניסה" />
               <div class="btn google-signup-btn">
-                כניסה מהירה<img
-                  class="google-logo"
-                  src="@/assets/Google_G.svg"
-                />
+                כניסה מהירה
+                <img class="google-logo" src="@/assets/Google_G.svg" />
               </div>
             </div>
           </form>
           <LoadingComponent v-if="loading" />
-          <p>{{ error }}</p>
+          <p class="error-p">{{ error }}</p>
         </div>
+        <p class="join-message-p">
+          עוד לא הצטרפת?
+          <a href v-on:click.self.prevent>ל-30 יום ניסיון</a>
+        </p>
       </div>
-      <!-- END form container -->
-      <!-- todo: change to one line comment -->
     </div>
     <div class="image-container">
       <img src="@/assets/green_login_page.svg" />
@@ -93,9 +85,14 @@ export default {
   },
   components: { LoadingComponent },
   methods: {
-    onSubmit: async function() {
-      this.loading = true;
+    onSubmit: async function () {
+      this.error = "";
       const { email, password } = this;
+      if (email.trim() === "" || password.trim() === "") {
+        this.error = "מייל או סימסא חסרים";
+        return;
+      }
+      this.loading = true;
       this.$store
         .dispatch("HANDLE_LOGIN", {
           email,
@@ -115,31 +112,30 @@ export default {
 };
 </script>
 
+<style lang="scss" scoped src="../style/floatingInputFieldPlaceholder.scss" />
 <style lang="scss" scoped>
 $image-offset: -8.5%;
 $google-btn-color: #0084f4;
+$dark-blue-color: #23445a;
+
+a:visited {
+  color: unset;
+}
+
+::-webkit-input-placeholder {
+  transition: inherit;
+  opacity: 0;
+}
 
 .login-component-container {
   display: flex;
   flex-direction: row;
-}
+  color: $dark-blue-color;
 
-.image-container {
-  height: 100vh;
-  width: 50vw;
-  background-color: #ffdcdc;
-  position: relative;
-}
-
-.image-container img {
-  /* todo: change to scss */
-  max-height: 80%;
-  max-width: 80%;
-
-  position: absolute;
-  right: $image-offset;
-  top: 50%;
-  transform: translateY(-50%);
+  @media only screen and (max-width: 620px) {
+    flex-direction: column-reverse;
+    height: 100vh;
+  }
 }
 
 .right-side-container {
@@ -149,24 +145,59 @@ $google-btn-color: #0084f4;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media only screen and (max-width: 620px) {
+    width: 95vw;
+    align-self: center;
+  }
 }
 
-.middle-wrapper {
+.image-container {
+  height: 100vh;
+  width: 50vw;
+  background-color: #ffdcdc;
+  position: relative;
+
+  & img {
+    /* todo: change to scss */
+    max-height: 80%;
+    max-width: 80%;
+
+    position: absolute;
+    right: $image-offset;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  @media only screen and (max-width: 620px) {
+    display: none;
+  }
+}
+
+.middle-right-side-wrapper {
   width: 50%;
+
+  @media only screen and (max-width: 620px) {
+    width: 80%;
+  }
 }
 
 .login-welcome-title {
   position: relative;
-  right: 1vh;
+  right: 1vw;
   letter-spacing: -2px;
+
+  @media only screen and (max-width: 620px) {
+    top: 8vh;
+    right: 3vw;
+  }
 }
 
-.form-group {
-  margin-bottom: 6vh;
-}
-
-.input-remark {
-  width: 100%;
+.form-container {
+  @media only screen and (max-width: 620px) {
+    width: 80%;
+    margin: 0 auto;
+  }
 }
 
 .form {
@@ -174,8 +205,16 @@ $google-btn-color: #0084f4;
   height: auto;
 }
 
-.form-button-error {
-  display: none !important;
+.form-group {
+  margin-bottom: 6vh;
+
+  .input-remark {
+    width: 100%;
+
+    @media only screen and (max-width: 620px) {
+      font-weight: 600;
+    }
+  }
 }
 
 .input-text-container {
@@ -184,44 +223,26 @@ $google-btn-color: #0084f4;
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
-}
 
-::-webkit-input-placeholder {
-  transition: inherit;
-  opacity: 0;
-}
-
-.input-text-container label {
-  /* todo: use scss */
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  box-sizing: border-box;
-  border-bottom: 1px solid black;
-}
-
-.input-text-container label::after {
-  /* todo: use scss */
-  content: "";
-  position: absolute;
-  left: 0px;
-  bottom: -2px;
-  height: 100%;
-  width: 100%;
-  border-bottom: 3px solid #5fa8d3;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
+  label {
+    /* todo: use scss */
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    box-sizing: border-box;
+    border-bottom: 1px solid black;
+  }
 }
 
 .input-text {
-  /* todo: use scss */
   width: 100%;
   height: 100%;
   box-sizing: border-box;
   padding-top: 28px;
+  font-size: 1.1rem;
   border: none;
   position: absolute;
   top: 0px;
@@ -230,53 +251,27 @@ $google-btn-color: #0084f4;
   direction: RTL;
 }
 
-.input-floating-content {
-  position: absolute;
-  bottom: 5px;
-  right: 2px;
-  transition: all 0.3s ease;
-}
-
-.input-text:focus + .input-floating-label .input-floating-content,
-input:not(:placeholder-shown) + .input-floating-label .input-floating-content {
-  /* valid because required is satisfied */
-  transform: translateY(-80%);
-  font-size: 14px;
-  color: #5fa8d3;
-}
-
-.input-text:focus + .input-floating-label::after,
-input:not(:placeholder-shown) + .input-floating-label::after {
-  transform: translateX(0%);
-}
-
-/*
-
-.input-text:focus + .input-floating-label .input-floating-content,
-.input-text:valid + .input-floating-label .input-floating-content {
-  transform: translateY(-80%);
-  font-size: 14px;
-  color: #5fa8d3;
-}
-
-.input-text:focus + .input-floating-label::after,
-.input-text:valid + .input-floating-label::after {
-  transform: translateX(0%);
-}
-*/
-
 .login-compnay-logo {
   position: absolute;
   right: 4.5%;
   top: 3.5%;
   width: 221px;
   height: 34px;
+
+  @media only screen and (max-width: 620px) {
+    right: unset;
+  }
 }
 
 .login-buttons-conatiner {
   display: flex;
   flex-direction: row;
   place-content: space-between;
+
+  @media only screen and (max-width: 620px) {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .btn {
@@ -289,82 +284,52 @@ input:not(:placeholder-shown) + .input-floating-label::after {
   font-size: 16px;
   line-height: 20px;
   cursor: pointer;
-}
 
-.signin-btn {
-  color: #ffffff;
-  background: #18c746;
-}
-
-.signin-btn:hover {
-  background: lighten(#18c746, 3%);
-}
-
-.google-signup-btn {
-  background: #fff;
-  border: 1px solid $google-btn-color;
-  color: $google-btn-color;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-.google-signup-btn:hover {
-  border: 1px solid lighten($google-btn-color, 30%);
-}
-
-.google-signup-btn .google-logo {
-  /* todo: use scss*/
-  height: 24px;
-  width: 24px;
-  margin-right: 13px;
-}
-
-@media only screen and (max-width: 620px) {
-  .login-component-container {
-    flex-direction: column-reverse;
-    height: 100vh;
-  }
-
-  .right-side-container {
-    width: 95vw;
-    align-self: center;
-  }
-
-  .image-container {
-    display: none;
-  }
-
-  .login-compnay-logo {
-    right: unset;
-  }
-
-  .middle-wrapper {
-    width: 80%;
-  }
-
-  .form-container {
-    width: 80%;
-    margin: 0 auto;
-  }
-
-  .input-floating-content {
-    font-size: 6rem;
-  }
-
-  .input-remark {
-    font-size: 3rem;
-    font-weight: 600;
-  }
-
-  .login-buttons-conatiner {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .btn {
+  @media only screen and (max-width: 620px) {
     margin-bottom: 2vh;
+  }
+
+  &.signin-btn {
+    color: #ffffff;
+    background: #18c746;
+  }
+
+  &.signin-btn:hover {
+    background: lighten(#18c746, 3%);
+  }
+
+  &.google-signup-btn {
+    background: #fff;
+    border: 1px solid $google-btn-color;
+    color: $google-btn-color;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.google-signup-btn > .google-logo {
+    height: 24px;
+    width: 24px;
+    margin-right: 13px;
+  }
+
+  &.google-signup-btn:hover {
+    border: 1px solid lighten($google-btn-color, 30%);
+  }
+}
+
+.join-message-p {
+  color: $google-btn-color;
+}
+
+.error-p {
+  color: #dc3545; /* todo: change to variable */
+  font-weight: 400;
+
+  @media only screen and (max-width: 620px) {
+    font-size: 1.2rem;
+    margin-top: 0px;
   }
 }
 </style>

@@ -15,7 +15,7 @@ export default {
 @import url("https://cdn.d.greeninvoice.co.il/assets/web-app/2.2.331/components/webfonts/all.min.css");
 
 html {
-  font-size: 1vw;
+  font-size: 16px;
   direction: RTL;
 }
 
@@ -39,7 +39,6 @@ h1 {
 
 @media only screen and (max-width: 620px) {
   h1 {
-    font-size: 9rem;
   }
 }
 </style>
