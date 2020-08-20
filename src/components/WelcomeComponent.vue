@@ -7,7 +7,7 @@
       <p>{{ error }}</p>
       <h1>שלום {{ firstName }}, ברוכים הבאים לעסק שלכם {{ businessName }}</h1>
       <button class="logout-btn" @click="logout">להתנתק</button>
-      <img src="https://media.giphy.com/media/3o7aTskHEUdgCQAXde/giphy.gif" />
+      <img src="https://media.giphy.com/media/1rL6xIyaPjgks0zQ4X/giphy.gif" />
     </div>
   </div>
 </template>
@@ -64,7 +64,9 @@ export default {
 <style lang="scss" scoped>
 .welcome-component-container {
   width: 70vw;
+  display: block;
   margin: 0 auto;
+  overflow: hidden;
 }
 
 h1 {
@@ -74,7 +76,11 @@ h1 {
 
 img {
   display: block;
-  margin-top: 20vh;
+  z-index: -1;
+
+  @media only screen and ($media-query-mobile-screen) {
+    margin-top: -15vh;
+  }
 }
 
 .main-container {
