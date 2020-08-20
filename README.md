@@ -6,7 +6,7 @@ How to run?
 3. Run command: npm run serve
 4. The app is available at: http://localhost:8080  
   
-Avaible routes:  
+Available routes:  
 1. http://localhost:8080/  Welcome
 2. http://localhost:8080/login Login
 3. http://localhost:8080/user User Info Screen  
