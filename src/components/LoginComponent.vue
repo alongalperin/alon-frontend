@@ -211,39 +211,6 @@ a:visited {
   }
 }
 
-.input-text-container {
-  position: relative;
-  height: 60px;
-  width: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-
-  label {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    box-sizing: border-box;
-    border-bottom: 1px solid black;
-  }
-}
-
-.input-text {
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  padding-top: 28px;
-  font-size: 1.1rem;
-  border: none;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  outline: none;
-  direction: RTL;
-}
-
 .login-compnay-logo {
   position: absolute;
   right: 4.5%;
@@ -313,6 +280,7 @@ a:visited {
 }
 
 .join-message-p {
+  font-size: 1.2rem;
   color: $google-btn-color;
 }
 
