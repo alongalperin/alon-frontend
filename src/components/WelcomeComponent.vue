@@ -5,7 +5,11 @@
     </div>
     <div class="main-container" v-if="!loading">
       <p>{{ error }}</p>
-      <h1>שלום {{ firstName }}, ברוכים הבאים לעסק שלכם {{ businessName }}</h1>
+      <h1>
+        שלום
+        <router-link to="/user">{{ firstName }}</router-link>
+        , ברוכים הבאים לעסק שלכם {{ businessName }}
+      </h1>
       <button class="logout-btn" @click="logout">להתנתק</button>
       <img src="https://media.giphy.com/media/1rL6xIyaPjgks0zQ4X/giphy.gif" />
     </div>
@@ -62,6 +66,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+a {
+  color: $primary;
+}
+
 .welcome-component-container {
   width: 70vw;
   display: block;

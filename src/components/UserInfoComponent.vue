@@ -49,7 +49,10 @@
         </div>
       </div>
       <!-- ############### Businesses Details ############### -->
-      <h2 class="business-list-title">העסקים שלך</h2>
+      <h2 class="business-list-title">
+        העסקים שלך
+        <span class="small-text">({{ user.activeBusinessCount }})</span>
+      </h2>
       <div v-for="business in businesses" :key="business.id" class="details-display">
         <div class="details-box">
           <div class="details-title">
@@ -233,6 +236,11 @@ p {
 
 .user-info-title {
   text-align: center;
+  color: darken($lime-green-color, 10%);
+}
+
+.small-text {
+  font-weight: 200;
 }
 
 .user-info-component {
