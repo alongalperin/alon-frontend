@@ -264,7 +264,7 @@ p {
   }
 }
 
-@media only screen and (max-width: 620px) {
+@media only screen and ($media-query-mobile-screen) {
   h2 {
     margin-right: 4vw;
     text-decoration: underline;

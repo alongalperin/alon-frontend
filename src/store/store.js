@@ -1,18 +1,23 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import {
+  HANDLE_LOGIN,
+  INIT_APP_USER_TOKEN,
+  LOGOUT,
+  AUTH_REQUEST,
+  AUTH_SUCCESS,
+} from "./constants";
 
 Vue.use(Vuex);
-
-// TODO: create constants file
 
 export const store = new Vuex.Store({
   state: {
     status: "",
-    firstname: localStorage.getItem("user-firstname") || "",
+    firstname: "",
   },
   actions: {
-    ["HANDLE_LOGIN"]: ({ commit }, user) => {
+    [HANDLE_LOGIN]: ({ commit }, user) => {
       return new Promise((resolve, reject) => {
         axios
           .post(
@@ -23,7 +28,6 @@ export const store = new Vuex.Store({
             const userToken = response.headers["x-authorization-bearer"];
             setAuthTokenInHeaders(userToken);
             localStorage.setItem("user-token", userToken);
-            localStorage.setItem("user-firstname", response.data.firstName);
             commit("AUTH_SUCCESS");
             resolve();
           })
@@ -32,29 +36,26 @@ export const store = new Vuex.Store({
           });
       });
     },
-    ["INIT_APP_USER_TOKEN"]: ({ commit }) => {
+    [INIT_APP_USER_TOKEN]: ({ commit }) => {
       const userToken = localStorage.getItem("user-token");
       if (userToken) {
         setAuthTokenInHeaders(userToken);
         commit("AUTH_SUCCESS");
       }
     },
-    ["LOGOUT"]: ({ commit }) => {
+    [LOGOUT]: ({ commit }) => {
       localStorage.removeItem("user-token");
-      localStorage.removeItem("user-firstname");
       commit("LOGOUT");
     },
   },
   mutations: {
-    ["AUTH_REQUEST"]: (state) => {
+    [AUTH_REQUEST]: (state) => {
       state.status = "loading";
     },
-    ["AUTH_SUCCESS"]: (state) => {
+    [AUTH_SUCCESS]: (state) => {
       state.status = "success";
     },
-    ["LOGOUT"]: (state) => {
-      /* todo: clearn localstorage */
-      /* todo: clean username from localstorage, there is no need in this */
+    [LOGOUT]: (state) => {
       state.status = "";
     },
   },

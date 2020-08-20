@@ -36,9 +36,4 @@ h1 {
   margin: 0px;
   font-size: 3rem;
 }
-
-@media only screen and (max-width: 620px) {
-  h1 {
-  }
-}
 </style>

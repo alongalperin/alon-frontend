@@ -70,8 +70,8 @@
 </template>
 
 <script>
-import axios from "axios";
 import LoadingComponent from "./UI/LoadingComponent";
+import { HANDLE_LOGIN } from "../store/constants";
 
 export default {
   name: "Login",
@@ -94,16 +94,15 @@ export default {
       }
       this.loading = true;
       this.$store
-        .dispatch("HANDLE_LOGIN", {
+        .dispatch(HANDLE_LOGIN, {
           email,
           password,
         })
-        .then((response) => {
+        .then(() => {
           this.loading = false;
           this.$router.push({ name: "welcome" });
         })
         .catch((err) => {
-          // todo: better error handle
           this.loading = false;
           this.error = err;
         });
@@ -114,10 +113,6 @@ export default {
 
 <style lang="scss" scoped src="../style/floatingInputFieldPlaceholder.scss" />
 <style lang="scss" scoped>
-$image-offset: -8.5%;
-$google-btn-color: #0084f4;
-$dark-blue-color: #23445a;
-
 a:visited {
   color: unset;
 }
@@ -132,7 +127,7 @@ a:visited {
   flex-direction: row;
   color: $dark-blue-color;
 
-  @media only screen and (max-width: 620px) {
+  @media only screen and ($media-query-mobile-screen) {
     flex-direction: column-reverse;
     height: 100vh;
   }
@@ -146,7 +141,7 @@ a:visited {
   justify-content: center;
   align-items: center;
 
-  @media only screen and (max-width: 620px) {
+  @media only screen and ($media-query-mobile-screen) {
     width: 95vw;
     align-self: center;
   }
@@ -159,7 +154,6 @@ a:visited {
   position: relative;
 
   & img {
-    /* todo: change to scss */
     max-height: 80%;
     max-width: 80%;
 
@@ -169,7 +163,7 @@ a:visited {
     transform: translateY(-50%);
   }
 
-  @media only screen and (max-width: 620px) {
+  @media only screen and ($media-query-mobile-screen) {
     display: none;
   }
 }
@@ -177,7 +171,7 @@ a:visited {
 .middle-right-side-wrapper {
   width: 50%;
 
-  @media only screen and (max-width: 620px) {
+  @media only screen and ($media-query-mobile-screen) {
     width: 80%;
   }
 }
@@ -187,14 +181,14 @@ a:visited {
   right: 1vw;
   letter-spacing: -2px;
 
-  @media only screen and (max-width: 620px) {
+  @media only screen and ($media-query-mobile-screen) {
     top: 8vh;
     right: 3vw;
   }
 }
 
 .form-container {
-  @media only screen and (max-width: 620px) {
+  @media only screen and ($media-query-mobile-screen) {
     width: 80%;
     margin: 0 auto;
   }
@@ -211,7 +205,7 @@ a:visited {
   .input-remark {
     width: 100%;
 
-    @media only screen and (max-width: 620px) {
+    @media only screen and ($media-query-mobile-screen) {
       font-weight: 600;
     }
   }
@@ -225,7 +219,6 @@ a:visited {
   overflow: hidden;
 
   label {
-    /* todo: use scss */
     position: absolute;
     bottom: 0px;
     right: 0px;
@@ -258,7 +251,7 @@ a:visited {
   width: 221px;
   height: 34px;
 
-  @media only screen and (max-width: 620px) {
+  @media only screen and ($media-query-mobile-screen) {
     right: unset;
   }
 }
@@ -268,7 +261,7 @@ a:visited {
   flex-direction: row;
   place-content: space-between;
 
-  @media only screen and (max-width: 620px) {
+  @media only screen and ($media-query-mobile-screen) {
     flex-direction: column;
     align-items: center;
   }
@@ -279,23 +272,23 @@ a:visited {
   width: 228px;
   border-radius: 100px;
   border: none;
-  font-family: "almoni-neue-dl"; /* todo: add fallback font */
+  font-family: "almoni-neue-dl", Times, serif;
   font-weight: 700;
   font-size: 16px;
   line-height: 20px;
   cursor: pointer;
 
-  @media only screen and (max-width: 620px) {
+  @media only screen and ($media-query-mobile-screen) {
     margin-bottom: 2vh;
   }
 
   &.signin-btn {
     color: #ffffff;
-    background: #18c746;
+    background: $lime-green-color;
   }
 
   &.signin-btn:hover {
-    background: lighten(#18c746, 3%);
+    background: lighten($lime-green-color, 3%);
   }
 
   &.google-signup-btn {
@@ -324,10 +317,10 @@ a:visited {
 }
 
 .error-p {
-  color: #dc3545; /* todo: change to variable */
+  color: $danger-color;
   font-weight: 400;
 
-  @media only screen and (max-width: 620px) {
+  @media only screen and ($media-query-mobile-screen) {
     font-size: 1.2rem;
     margin-top: 0px;
   }
