@@ -1,6 +1,4 @@
-# Alon-Frontend
-
-Alon home assignment
+# Alon-Frontend Home Assignment
 
 How to run?  
 1. Download from Github.  
