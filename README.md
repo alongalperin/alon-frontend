@@ -1,4 +1,4 @@
-# alon-frontend
+# Alon-Frontend
 
 Alon home assignment
 
