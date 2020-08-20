@@ -1,6 +1,8 @@
 <template>
   <div class="welcome-component-container">
-    <LoadingComponent v-if="loading" />
+    <div style="text-align: center">
+      <LoadingComponent v-if="loading" />
+    </div>
     <div class="main-container" v-if="!loading">
       <p>{{ error }}</p>
       <h1>שלום {{ firstName }}, ברוכים הבאים לעסק שלכם {{ businessName }}</h1>

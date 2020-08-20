@@ -1,7 +1,10 @@
 <template>
   <div class="user-info-component">
     <h1 class="user-info-title">עמוד אישי</h1>
-    <div>
+    <div style="text-align: center">
+      <LoadingComponent v-if="loading" />
+    </div>
+    <div v-if="!loading">
       <h2>פרטים אישיים</h2>
       <div class="details-display">
         <div class="details-box">
@@ -122,11 +125,13 @@
 
 <script>
 import axios from "axios";
+import LoadingComponent from "./UI/LoadingComponent";
 
 export default {
   name: "UserInfo",
   data() {
     return {
+      loading: true,
       user: {
         firstName: "",
         lastName: "",
@@ -137,7 +142,9 @@ export default {
       businesses: [],
     };
   },
-  components: {},
+  components: {
+    LoadingComponent,
+  },
   async mounted() {
     let response;
     try {
@@ -146,6 +153,7 @@ export default {
       );
     } catch (err) {
       console.log(err);
+      this.loading = false;
       return;
     }
 
@@ -153,6 +161,7 @@ export default {
     const bussinessDetailsResponse = response.data.businesses;
     this.user = resolveUserDetails(userDetailsResponse);
     this.businesses = await resolveBusinessDetails(bussinessDetailsResponse);
+    this.loading = false;
   },
 };
 
@@ -201,6 +210,7 @@ async function fetchBusinessTypes() {
     );
   } catch (err) {
     console.log(err);
+    return;
   }
 
   return createMapFromArray(response.data);

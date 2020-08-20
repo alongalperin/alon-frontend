@@ -21,7 +21,6 @@ export default {
 </script>
 <style scoped>
 .lds-spinner {
-  color: official;
   display: inline-block;
   position: relative;
   width: 80px;
