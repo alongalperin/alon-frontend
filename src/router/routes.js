@@ -1,6 +1,27 @@
-import LoginComponent from "../components/LoginComponent";
-import WelcomeComponent from "../components/WelcomeComponent";
-import UserInfoComponent from "../components/UserInfoComponent";
+const LoginComponent = () => {
+  auditLoading("LoginComponent");
+  return import(
+    /* webpackChunkName: "group-LoginComponent" */ "../components/LoginComponent"
+  );
+};
+
+const WelcomeComponent = () => {
+  auditLoading("WelcomeComponent");
+  return import(
+    /* webpackChunkName: "group-WelcomeComponent" */ "../components/WelcomeComponent"
+  );
+};
+
+const UserInfoComponent = () => {
+  auditLoading("UserInfoComponent");
+  return import(
+    /* webpackChunkName: "group-UserInfoComponent" */ "../components/UserInfoComponent"
+  );
+};
+
+function auditLoading(componentName) {
+  console.log(`Lazy Loading: ${componentName}`);
+}
 
 import authGuard from "./guards/auth-guard";
 
